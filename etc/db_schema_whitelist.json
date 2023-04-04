@@ -1,13 +1,26 @@
 {
-  "simicart_simpify_users": {
-    "column": {
-      "entity_id": true
-    },
-    "index": {
-      "SIMICART_SIMPIFY_USERS_ENTITY_ID": true
-    },
-    "constraint": {
-      "PRIMARY": true
+    "simicart_simpify_users": {
+        "column": {
+            "entity_id": true,
+            "shop_domain": true,
+            "shop_name": true,
+            "shop_email": true,
+            "shop_storefront_token": true,
+            "simi_access_token": true,
+            "status": true,
+            "app_info": true,
+            "plan_id": true,
+            "created_at": true
+        },
+        "index": {
+            "SIMICART_SIMPIFY_USERS_ENTITY_ID": true,
+            "SIMICART_SIMPIFY_USERS_SHOP_DOMAIN": true,
+            "SIMICART_SIMPIFY_USERS_SHOP_STOREFRONT_TOKEN": true,
+            "SIMICART_SIMPIFY_USERS_SIMI_ACCESS_TOKEN": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "SIMICART_SIMPIFY_USERS_SHOP_DOMAIN_SHOP_EMAIL": true
+        }
     }
-  }
 }

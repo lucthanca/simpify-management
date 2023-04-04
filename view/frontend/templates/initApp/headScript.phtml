@@ -4,7 +4,7 @@
 
 $shop = $block->getShop();
 $host = $block->getHost();
-$getRedirectUrl = $block->getRedirectUrl();
+$authUrl = $block->getAuthUrl();
 $appBridgeVersion = $block->getAppBridgeVersion();
 $apiKey = $block->getApiKey();
 ?>
@@ -13,7 +13,7 @@ $apiKey = $block->getApiKey();
 <script src="https://unpkg.com/@shopify/app-bridge-utils<?= /** @noEscape */ $appBridgeVersion ?>"></script>
 <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function () {
-        const redirectUrl = "<?= $escaper->escapeJs($getRedirectUrl) ?>";
+        const redirectUrl = "<?= $escaper->escapeJs($authUrl) ?>";
         let normalizedLink;
         debugger;
         if (window.top === window.self) {

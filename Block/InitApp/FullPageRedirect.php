@@ -4,12 +4,30 @@ declare(strict_types=1);
 namespace SimiCart\SimpifyManagement\Block\InitApp;
 
 use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use SimiCart\SimpifyManagement\Model\ConfigProvider;
 
 class FullPageRedirect extends Template
 {
+    protected ConfigProvider $configProvider;
+
+    /**
+     * @param ConfigProvider $configProvider
+     * @param Context $context
+     * @param array $data
+     */
+    public function __construct(
+        ConfigProvider $configProvider,
+        Template\Context $context,
+        array $data = []
+    ){
+        parent::__construct($context, $data);
+        $this->configProvider = $configProvider;
+    }
+
     public function getApiKey(): string
     {
-        return 'c5f442698851adf4a90fd5fe4d344ba2';
+        return $this->configProvider->getApiKey();
     }
     public function getHost(): string
     {
@@ -21,13 +39,13 @@ class FullPageRedirect extends Template
         return $this->getRequest()->getParam('shop');
     }
 
-    public function getRedirectUrl(): string
+    public function getAuthUrl(): string
     {
         return $this->getUrl('simicart/authenticate');
     }
 
     public function getAppBridgeVersion(): string
     {
-        return 'latest';
+        return $this->configProvider->getAppBridgeVersion();
     }
 }

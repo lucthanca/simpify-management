@@ -1,17 +1,42 @@
 <?xml version="1.0"?>
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="simicart_simpify_users" resource="default" engine="innodb" comment="Simicart Shopify Users">
+    <table name="simicart_simpify_users" resource="default" engine="innodb" comment="Simicart Shopify Shops">
         <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
                 comment="Entity ID"/>
         <column xsi:type="varchar" name="shop_domain" nullable="false" length="128" comment="Shop Domain"/>
-        <column xsi:type="varchar" name="shop_name" nullable="true" length="64" comment="Shop name"/>
-        <column xsi:type="varchar" name="shop_email" nullable="true" length="64" comment="Shop name"/>
+        <column xsi:type="varchar" name="shop_name" nullable="true" length="255" comment="Shop Name"/>
+        <column xsi:type="varchar" name="shop_email" nullable="true" length="64" comment="Shop Email"/>
+        <column xsi:type="varchar" name="shop_storefront_token" nullable="true" length="128" comment="Storefront API Token"/>
+        <column xsi:type="varchar" name="simi_access_token" nullable="true" length="128" comment="Access Token to communicate with SimiSystem"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" identity="false"
+                default="0" comment="Shop Status"/>
+        <column xsi:type="mediumtext" name="app_info" nullable="true" comment="App Information"/>
+        <column xsi:type="int" name="plan_id" unsigned="true" nullable="true" identity="false"
+                comment="Subscription Plan ID"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="App first installation Time"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="entity_id"/>
         </constraint>
+        <constraint xsi:type="unique" referenceId="SIMICART_SIMPIFY_USERS_SHOP_DOMAIN_SHOP_EMAIL">
+            <column name="shop_domain"/>
+            <column name="shop_email"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="SIMICART_SIMPIFY_USERS_SHOP_DOMAIN">
+            <column name="shop_domain"/>
+        </constraint>
         <index referenceId="SIMICART_SIMPIFY_USERS_ENTITY_ID" indexType="btree">
             <column name="entity_id"/>
+        </index>
+        <index referenceId="SIMICART_SIMPIFY_USERS_SHOP_DOMAIN" indexType="btree">
+            <column name="shop_domain"/>
+        </index>
+        <index referenceId="SIMICART_SIMPIFY_USERS_SHOP_STOREFRONT_TOKEN" indexType="btree">
+            <column name="shop_storefront_token"/>
+        </index>
+        <index referenceId="SIMICART_SIMPIFY_USERS_SIMI_ACCESS_TOKEN" indexType="btree">
+            <column name="simi_access_token"/>
         </index>
     </table>
 </schema>
