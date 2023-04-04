@@ -1,0 +1,25 @@
+{
+  "name": "simicart/module-simpify-management",
+  "version": "1.0.0",
+  "description": "Simi Shopify Mobile Management",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "magento/module-graph-ql": "100.4.*"
+  },
+  "authors": [{
+    "name": "Vadu",
+    "email": "lucthanca@gmail.com"
+  }],
+  "license": [
+    "Proprietary"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "SimiCart\\SimpifyManagement\\": ""
+    }
+  }
+}

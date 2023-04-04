@@ -1,0 +1,39 @@
+<?php
+/** @var $block \SimiCart\SimpifyManagement\Block\InitApp\FullPageRedirect */
+/** @var $escaper \Magento\Framework\Escaper */
+
+$shop = $block->getShop();
+$host = $block->getHost();
+$getRedirectUrl = $block->getRedirectUrl();
+$appBridgeVersion = $block->getAppBridgeVersion();
+$apiKey = $block->getApiKey();
+?>
+
+<script src="https://unpkg.com/@shopify/app-bridge<?= /** @noEscape */ $appBridgeVersion ?>"></script>
+<script src="https://unpkg.com/@shopify/app-bridge-utils<?= /** @noEscape */ $appBridgeVersion ?>"></script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const redirectUrl = "<?= $escaper->escapeJs($getRedirectUrl) ?>";
+        let normalizedLink;
+        debugger;
+        if (window.top === window.self) {
+            // If the current window is the 'parent', change the URL by setting location.href
+            window.top.location.href = redirectUrl;
+        } else {
+            // If the current window is the 'child', change the parent's URL with postMessage
+            normalizedLink = document.createElement('a');
+            normalizedLink.href = redirectUrl;
+
+            const AppBridge = window['app-bridge'];
+            const createApp = AppBridge.default;
+            const Redirect = AppBridge.actions.Redirect;
+            const app = createApp({
+                apiKey: "<?= $escaper->escapeJs($apiKey) ?>",
+                host: "<?= $escaper->escapeJs($host) ?>",
+            });
+
+            const redirect = Redirect.create(app);
+            redirect.dispatch(Redirect.Action.REMOTE, normalizedLink.href);
+        }
+    });
+</script>

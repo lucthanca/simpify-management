@@ -1,0 +1,13 @@
+{
+  "simicart_simpify_users": {
+    "column": {
+      "entity_id": true
+    },
+    "index": {
+      "SIMICART_SIMPIFY_USERS_ENTITY_ID": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  }
+}
