@@ -7,7 +7,8 @@
         <column xsi:type="varchar" name="shop_domain" nullable="false" length="128" comment="Shop Domain"/>
         <column xsi:type="varchar" name="shop_name" nullable="true" length="255" comment="Shop Name"/>
         <column xsi:type="varchar" name="shop_email" nullable="true" length="64" comment="Shop Email"/>
-        <column xsi:type="varchar" name="shop_storefront_token" nullable="true" length="128" comment="Storefront API Token"/>
+        <column xsi:type="varchar" name="shop_access_token" nullable="true" length="128" comment="Shopify Store Access Token"/>
+        <column xsi:type="varchar" name="shop_storefront_token" nullable="true" length="128" comment="Shopify Storefront Access Token"/>
         <column xsi:type="varchar" name="simi_access_token" nullable="true" length="128" comment="Access Token to communicate with SimiSystem"/>
         <column xsi:type="smallint" name="status" unsigned="true" nullable="false" identity="false"
                 default="0" comment="Shop Status"/>
@@ -29,10 +30,10 @@
         <index referenceId="SIMICART_SIMPIFY_USERS_ENTITY_ID" indexType="btree">
             <column name="entity_id"/>
         </index>
-        <index referenceId="SIMICART_SIMPIFY_USERS_SHOP_DOMAIN" indexType="btree">
-            <column name="shop_domain"/>
+        <index referenceId="SIMICART_SIMPIFY_USERS_SHOP_ACCESS_TOKEN" indexType="btree">
+            <column name="shop_access_token"/>
         </index>
-        <index referenceId="SIMICART_SIMPIFY_USERS_SHOP_STOREFRONT_TOKEN" indexType="btree">
+        <index referenceId="SIMICART_SIMPIFY_USERS_SHOP_STOREFRONT_ACCESS_TOKEN" indexType="btree">
             <column name="shop_storefront_token"/>
         </index>
         <index referenceId="SIMICART_SIMPIFY_USERS_SIMI_ACCESS_TOKEN" indexType="btree">

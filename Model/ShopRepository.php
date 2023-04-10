@@ -56,6 +56,21 @@ class ShopRepository implements ShopRepositoryInterface
         return $this->save($shop);
     }
 
+    /**
+     * @inheirtDoc
+     */
+    public function getById($shopId): ShopInterface
+    {
+        try {
+            $shop = $this->newInstance();
+            $this->shopResource->load($shop, $shopId);
+            return $shop;
+        } catch (\Exception $e) {
+            $this->logger->debug($e);
+            throw new NoSuchEntityException(__("Something went wrong while loading Shop. Please review the log."));
+        }
+    }
+
     public function getByDomain(string $domain): ShopInterface
     {
         try {

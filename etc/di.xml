@@ -37,4 +37,36 @@
             </argument>
         </arguments>
     </type>
+
+<!--  GRID COLLECTION DECLARE  -->
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="simpify_management_shops_listing_data_source" xsi:type="string">SimiCart\SimpifyManagement\Model\ResourceModel\Shop\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="SimiCart\SimpifyManagement\Model\ResourceModel\Shop\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simicart_simpify_users</argument>
+            <argument name="resourceModel" xsi:type="string">SimiCart\SimpifyManagement\Model\ResourceModel\Shop</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="SimiCart\SimpifyManagement\Model\Session">
+        <arguments>
+            <argument name="shopRepository" xsi:type="object">SimiCart\SimpifyManagement\Api\ShopRepositoryInterface\Proxy</argument>
+            <argument name="storage" xsi:type="object">SimiCart\SimpifyManagement\Model\Session\Storage</argument>
+        </arguments>
+    </type>
+    <virtualType name="SimiCart\SimpifyManagement\Model\Session\Storage" type="Magento\Framework\Session\Storage">
+        <arguments>
+            <argument name="namespace" xsi:type="string">simpify_shop</argument>
+        </arguments>
+    </virtualType>
+
+
+    <preference for="SimiCart\SimpifyManagement\Api\ShopRepositoryInterface" type="SimiCart\SimpifyManagement\Model\ShopRepository"/>
+    <preference for="SimiCart\SimpifyManagement\Api\ShopApiInterface" type="SimiCart\SimpifyManagement\Model\ShopApi"/>
 </config>

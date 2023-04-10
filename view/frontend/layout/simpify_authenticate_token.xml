@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <block name="head_token_style" template="SimiCart_SimpifyManagement::authenticate/token_styles.phtml" />
+        </referenceBlock>
+        <referenceBlock name="main">
+            <block name="token_shimmer" template="SimiCart_SimpifyManagement::authenticate/token_shimmer.phtml" />
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block name="token_script_base" class="SimiCart\SimpifyManagement\Block\Authenticate\Token" template="SimiCart_SimpifyManagement::authenticate/token_script.phtml">
+                <block name="additional" class="SimiCart\SimpifyManagement\Block\Authenticate\Token" template="SimiCart_SimpifyManagement::authenticate/token_script2.phtml" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

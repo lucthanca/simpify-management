@@ -3,6 +3,11 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
+                <resource id="Magento_Customer::customer">
+                    <resource id="SimiCart_SimpifyManagement::simicart_shopify" title="SimiCart Shopify Shops Management" translate="title" sortOrder="500">
+                        <resource id="SimiCart_SimpifyManagement::shop_management" sortOrder="10" translate="title" title="Manage Shopify Shops" />
+                    </resource>
+                </resource>
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">

@@ -15,7 +15,6 @@ $apiKey = $block->getApiKey();
     document.addEventListener('DOMContentLoaded', function () {
         const redirectUrl = "<?= $escaper->escapeJs($authUrl) ?>";
         let normalizedLink;
-        debugger;
         if (window.top === window.self) {
             // If the current window is the 'parent', change the URL by setting location.href
             window.top.location.href = redirectUrl;
@@ -30,6 +29,7 @@ $apiKey = $block->getApiKey();
             const app = createApp({
                 apiKey: "<?= $escaper->escapeJs($apiKey) ?>",
                 host: "<?= $escaper->escapeJs($host) ?>",
+                forceRedirect: true,
             });
 
             const redirect = Redirect.create(app);

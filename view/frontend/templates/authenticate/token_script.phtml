@@ -1,0 +1,113 @@
+<?php
+/** @var $block \SimiCart\SimpifyManagement\Block\Authenticate\Token */
+/** @var $escaper \Magento\Framework\Escaper */
+
+$appBridgeVersion = $block->getAppBridgeVersion();
+$apiKey = $block->getApiKey();
+$host = $block->getHost();
+?>
+
+<script src="https://unpkg.com/@shopify/app-bridge<?= $appBridgeVersion ?>"></script>
+<script src="https://unpkg.com/@shopify/app-bridge-utils<?= $appBridgeVersion ?>"></script>
+<script>
+    var AppBridge = window['app-bridge'];
+    var actions = AppBridge.actions;
+    var utils = window['app-bridge-utils'];
+    var createApp = AppBridge.default;
+    try {
+        var app = createApp({
+            apiKey: "<?= $escaper->escapeJs($apiKey) ?>",
+            host: "<?= $escaper->escapeJs($host) ?>",
+            forceRedirect: true,
+        });
+    } catch (e) {
+        console.log(e);
+    }
+</script>
+<script data-turbolinks-eval="false">
+    const SESSION_TOKEN_REFRESH_INTERVAL = 2000;
+    const LOAD_EVENT = 'DOMContentLoaded';
+
+    // Token updates
+    document.addEventListener(LOAD_EVENT, () => {
+        retrieveToken(app);
+        keepRetrievingToken(app);
+    });
+
+    // Retrieve session token
+    async function retrieveToken(app) {
+        window.sessionToken = await utils.getSessionToken(app);
+
+        // Update everything with the session-token class
+        Array.from(document.getElementsByClassName('session-token')).forEach((el) => {
+            if (el.hasAttribute('value')) {
+                el.value = window.sessionToken;
+                el.setAttribute('value', el.value);
+            } else {
+                el.dataset.value = window.sessionToken;
+            }
+        });
+
+        const bearer = `Bearer ${window.sessionToken}`;
+        if (window.jQuery) {
+            // jQuery
+            if (window.jQuery.ajaxSettings.headers) {
+                window.jQuery.ajaxSettings.headers['Authorization'] = bearer;
+            } else {
+                window.jQuery.ajaxSettings.headers = { 'Authorization': bearer };
+            }
+        }
+
+        if (window.Livewire) {
+            // livewire
+            window.livewire.addHeaders({
+                'Authorization': bearer,
+                'content-type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            });
+        }
+
+        if (window.axios) {
+            // Axios
+            window.axios.defaults.headers.common['Authorization'] = bearer;
+        }
+    }
+
+    // Keep retrieving a session token periodically
+    function keepRetrievingToken(app) {
+        setInterval(() => {
+            retrieveToken(app);
+        }, SESSION_TOKEN_REFRESH_INTERVAL);
+    }
+
+    document.addEventListener('turbolinks:request-start', (event) => {
+        var xhr = event.data.xhr;
+        xhr.setRequestHeader('Authorization', `Bearer ${window.sessionToken}`);
+    });
+</script>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        var Toast = actions.Toast;
+
+    <?php if($block->getNotice()): ?>
+        var toastNotice = Toast.create(app, {
+            message: "<?= $escaper->escapeJs($block->getNotice('notice')) ?>",
+            duration: 3000,
+        });
+        toastNotice.dispatch(Toast.Action.SHOW);
+    <?php endif; ?>
+    <?php if($block->getError()): ?>
+        var toastNotice = Toast.create(app, {
+            message: "<?= $escaper->escapeJs($block->getNotice('error')) ?>",
+            duration: 3000,
+            isError: true,
+        });
+        toastNotice.dispatch(Toast.Action.SHOW);
+    <?php endif; ?>
+    });
+
+    // <?= $block->getRequest()->getFullActionName() ?>
+
+</script>
+
+<?= $block->getChildHtml('additional') ?>

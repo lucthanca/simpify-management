@@ -2,8 +2,5 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock name="head.additional">
-            <block class="SimiCart\SimpifyManagement\Block\InitApp\FullPageRedirect" name="head_fullpage_redirect_script" template="SimiCart_SimpifyManagement::initApp/headScript.phtml" />
-        </referenceBlock>
     </body>
 </page>

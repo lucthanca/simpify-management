@@ -1,0 +1,12 @@
+<?php
+$target = $block->getTarget();
+?>
+<script>
+    const host = new URLSearchParams(location.search).get("host")
+    utils.getSessionToken(app).then((token) => {
+        const hrr = `<?= $target ?><?= str_contains($target, '?') ? '&' : '?' ?>token=${token}<?= str_contains($target, 'host')? '' : '&host=${host}'?>`;
+        console.log(hrr);
+        // debugger;
+        window.location.href = hrr;
+    });
+</script>

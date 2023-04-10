@@ -5,25 +5,33 @@ namespace SimiCart\SimpifyManagement\Api;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use SimiCart\SimpifyManagement\Api\Data\ShopInterface;
+use SimiCart\SimpifyManagement\Api\Data\ShopInterface as IShop;
 
 interface ShopRepositoryInterface
 {
     /**
      * Retrieve shop by shop domain
      *
+     * @param mixed $shopId
+     * @return IShop
+     */
+    public function getById($shopId): IShop;
+
+    /**
+     * Retrieve shop by shop domain
+     *
      * @param string $domain
-     * @return ShopInterface
+     * @return IShop
      * @throws NoSuchEntityException
      */
-    public function getByDomain(string $domain): ShopInterface;
+    public function getByDomain(string $domain): IShop;
 
     /**
      * Store shop
      *
-     * @param ShopInterface $shop
-     * @return ShopInterface
+     * @param IShop $shop
+     * @return IShop
      * @throws CouldNotSaveException
      */
-    public function save(ShopInterface $shop): ShopInterface;
+    public function save(IShop $shop): IShop;
 }

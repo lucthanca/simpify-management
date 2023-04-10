@@ -3,49 +3,57 @@ declare(strict_types=1);
 namespace SimiCart\SimpifyManagement\Model;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use SimiCart\SimpifyManagement\Api\Data\ShopInterface;
+use SimiCart\SimpifyManagement\Api\Data\ShopInterface as IShop;
 use SimiCart\SimpifyManagement\Api\ShopRepositoryInterface as IShopRepository;
 
+/**
+ * Authenticate and install shop
+ */
 class InstallShop
 {
     protected IShopRepository $shopRepository;
+    protected ConfigProvider $configProvider;
 
     /**
      * @param IShopRepository $shopRepository
+     * @param ConfigProvider $configProvider
      */
     public function __construct(
-        IShopRepository $shopRepository
+        IShopRepository $shopRepository,
+        ConfigProvider $configProvider
     ) {
         $this->shopRepository = $shopRepository;
-    }
-
-    public function execute(string $shopDomain, ?string $code)
-    {
-        try {
-            $shop = $this->shopRepository->getByDomain($shopDomain);
-            if (!$shop->getId()) {
-                $this->createShop($shopDomain);
-                $shop = $this->shopRepository->getByDomain($shopDomain);
-            }
-        } catch (\Exception $e) {}
+        $this->configProvider = $configProvider;
     }
 
     /**
-     * Create not shop using shop domain
+     * Execution.
      *
-     * @param string $shopDomain
-     * @param string|null $token
+     * @param IShop $shop
+     * @param string|null $code
      * @throws CouldNotSaveException
      */
-    protected function createShop(string $shopDomain, ?string $token = null)
+    public function execute(IShop $shop, ?string $code = null)
     {
-        $shopData = [
-            ShopInterface::SHOP_NAME => $shopDomain,
-            ShopInterface::SHOP_DOMAIN => $shopDomain,
-            ShopInterface::SHOP_EMAIL => "shop@$shopDomain",
-            ShopInterface::SHOP_STOREFRONT_TOKEN => $token ?? "",
-        ];
+        // if the store has been deleted, restore the store to set the access token
+        if ($shop->hasUninstalled()) {
+            $shop->restore();
+        }
+        if (!$shop->hasOfflineAccess()) {
+            // Get the data and set the access token
+            $data = $shop->getShopApi()->getAccessData($code);
+            $shop->setAccessToken($data['access_token']);
+        }
+        if (!$shop->hasStorefrontToken()) {
+            $token = $shop->getShopApi()->requestStorefrontToken();
+            $shop->setShopStorefrontToken($token);
+        }
+        $shopInfo = $shop->getShopApi()->getShopInfo();
+        if (!empty($shopInfo)) {
+            $shop->setShopName($shopInfo['name'] ?? $shop->getShopName());
+            $shop->setShopEmail($shopInfo['email'] ?? $shop->getShopEmail());
+        }
 
-        $this->shopRepository->createShop($shopData);
+        $this->shopRepository->save($shop);
     }
 }

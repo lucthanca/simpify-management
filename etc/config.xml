@@ -9,6 +9,10 @@
         <simpify_management>
             <general>
                 <app_bridge_version>3</app_bridge_version>
+                <shopify_api_grant_mode>0</shopify_api_grant_mode>
+                <shopify_api_scopes>read_products,write_products</shopify_api_scopes>
+                <api_secret backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <api_version>2023-01</api_version>
             </general>
         </simpify_management>
     </default>

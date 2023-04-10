@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="SimiCart_SimpifyManagement::SimiCart_Shopify" title="SimiCart Shopify Shops" translate="title" module="SimiCart_SimpifyManagement" parent="Magento_Customer::customer" sortOrder="500" resource="SimiCart_SimpifyManagement::simicart_shopify"/>
+        <add id="SimiCart_SimpifyManagement::shops" title="Manage Shops" module="SimiCart_SimpifyManagement" sortOrder="10" action="simpify/shops" resource="SimiCart_SimpifyManagement::shop_management" parent="SimiCart_SimpifyManagement::SimiCart_Shopify"/>
+    </menu>
+</config>

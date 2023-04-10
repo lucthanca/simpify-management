@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <referenceContainer name="main">
+        <block class="SimiCart\SimpifyManagement\Block\Dashboard" name="simpify_page_wrapper" template="SimiCart_SimpifyManagement::dashboard.phtml"/>
+    </referenceContainer>
+    <referenceContainer name="before.body.end">
+        <block name="token_script_base" class="SimiCart\SimpifyManagement\Block\Authenticate\Token" template="SimiCart_SimpifyManagement::authenticate/token_script.phtml" />
+    </referenceContainer>
+</layout>
